@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web-converter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: multi-tool-converter
+    ports:
+      - "8000:8000"
+    environment:
+      # Override default settings if needed
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    
+    # Uncomment for development mode with live reload
+    # volumes:
+    #   - ./static:/app/static:ro
+    #   - ./routes:/app/routes:ro
+    #   - ./converters:/app/converters:ro
+    #   - ./utils:/app/utils:ro
+    #   - ./main.py:/app/main.py:ro
+    #   - ./config.py:/app/config.py:ro

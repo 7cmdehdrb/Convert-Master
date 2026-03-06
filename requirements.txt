@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+img2pdf
+Pillow
+python-multipart
+pydantic-settings
+pymupdf
