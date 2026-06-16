@@ -2,6 +2,8 @@
 
 Web app built with FastAPI for common conversion and recording tasks.
 
+![image](./img.png)
+
 Current features in this workspace:
 - Merge multiple images into one PDF
 - Extract embedded images from a PDF and download selected results
