@@ -35,6 +35,63 @@
     font-weight: 500;
 }
 
+/* HTTP Guide */
+.http-guide {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-2xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    transition: all var(--transition-base);
+}
+
+.http-guide:hover {
+    background: #f1f5f9;
+}
+
+.http-guide summary {
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.http-guide summary::-webkit-details-marker {
+    display: none;
+}
+
+.http-guide-content {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px dashed #cbd5e1;
+    color: #334155;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.http-guide-content p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.http-guide-content ol {
+    padding-left: var(--spacing-xl);
+}
+
+.http-guide-content li {
+    margin-bottom: 4px;
+}
+
+.http-guide-content code {
+    background: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
 /* Device Selection */
 .device-section {
     display: grid;
