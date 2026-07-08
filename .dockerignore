@@ -37,9 +37,7 @@ wheels/
 .gitattributes
 
 # Docker
-Dockerfile
-.dockerignore
-docker-compose.yml
+# (Dockerfile and .dockerignore should not be ignored if used by BuildKit in this way)
 
 # Documentation (not needed in container)
 *.md
