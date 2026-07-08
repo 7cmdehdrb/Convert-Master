@@ -90,6 +90,11 @@ function checkBrowserCompatibility() {
     if (!isChrome && !isEdge) {
         elements.browserWarning.style.display = 'block';
     }
+    
+    if (!window.isSecureContext) {
+        elements.browserWarning.innerHTML = '<strong>보안 경고:</strong> 시스템 오디오 및 마이크 녹음 기능은 <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" target="_blank">보안 연결 (HTTPS)</a> 환경에서만 작동합니다. (localhost 제외)';
+        elements.browserWarning.style.display = 'block';
+    }
 }
 
 // ========================================
@@ -98,6 +103,12 @@ function checkBrowserCompatibility() {
 
 async function selectSystemAudio() {
     try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+            showToast('브라우저 보안 정책: HTTPS 또는 localhost 접속이 필요합니다.', 'error');
+            console.error('navigator.mediaDevices.getDisplayMedia is not available. This feature requires a secure context (HTTPS) or localhost.');
+            return;
+        }
+
         // Stop existing stream if any
         if (state.systemStream) {
             state.systemStream.getTracks().forEach(track => track.stop());
@@ -148,6 +159,12 @@ async function selectSystemAudio() {
 
 async function selectMicrophone() {
     try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            showToast('브라우저 보안 정책: HTTPS 또는 localhost 접속이 필요합니다.', 'error');
+            console.error('navigator.mediaDevices.getUserMedia is not available. This feature requires a secure context (HTTPS) or localhost.');
+            return;
+        }
+
         // Stop existing stream if any and revoke permissions
         if (state.micStream) {
             state.micStream.getTracks().forEach(track => {
