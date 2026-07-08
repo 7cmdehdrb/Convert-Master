@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Record system audio and microphone">
+    <title>Multi-Tool Web Converter | System Recorder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/system-recorder.css">
+    <link rel="stylesheet" href="/static/css/volume-control.css">
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+    <script src="/static/js/header-loader.js" defer></script>
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="page-header">
+                <h2 class="page-title">System Audio Recorder</h2>
+                <p class="page-subtitle">Record system audio + microphone simultaneously</p>
+            </section>
+
+            <!-- Browser Compatibility Warning -->
+            <div class="browser-warning" id="browserWarning" style="display: none;">
+                <div class="warning-content">
+                    <span class="warning-icon">⚠️</span>
+                    <span class="warning-text">Your browser may have limited support. Use Chrome or Edge for best
+                        experience.</span>
+                </div>
+            </div>
+
+            <!-- Device Selection -->
+            <section class="device-section">
+                <div class="device-card">
+                    <div class="device-icon system-icon">🖥️</div>
+                    <h3 class="device-title">System Audio</h3>
+                    <p class="device-description">
+                        Select tab/window with audio<br>
+                        <strong style="color: #ef4444;">⚠️ 필수: "시스템 오디오도 공유" 체크 필수!</strong><br>
+                        <span style="font-size: 0.75rem; color: #64748b;">(오디오 있는 탭/창을 선택하세요)</span>
+                    </p>
+                    <div class="device-buttons">
+                        <button class="btn btn-secondary" id="selectSystemBtn">
+                            <span>Select System Audio</span>
+                        </button>
+                        <button class="btn btn-clear" id="clearSystemBtn" style="display: none;">
+                            <span>✕ Clear</span>
+                        </button>
+                    </div>
+                    <div class="device-status" id="systemStatus">Not selected</div>
+
+                    <!-- Volume Control -->
+                    <div class="volume-control" id="systemVolumeControl" style="display: none;">
+                        <label class="volume-label">
+                            <span>🔊 Volume:</span>
+                            <span class="volume-value" id="systemVolumeValue">100%</span>
+                        </label>
+                        <input type="range" class="volume-slider" id="systemVolumeSlider" min="0" max="200" value="100"
+                            step="1">
+                        <div class="volume-marks">
+                            <span>0%</span>
+                            <span>100%</span>
+                            <span>200%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="device-card">
+                    <div class="device-icon mic-icon">🎤</div>
+                    <h3 class="device-title">Microphone</h3>
+                    <p class="device-description">
+                        Select your microphone input<br>
+                        <strong style="color: #3b82f6;">💡 마이크를 변경하려면 브라우저 주소창 왼쪽의 마이크 아이콘 클릭</strong><br>
+                        <span style="font-size: 0.75rem; color: #64748b;">(브라우저에서 사용하는 마이크를 변경하세요)</span>
+                    </p>
+                    <div class="device-buttons">
+                        <button class="btn btn-secondary" id="selectMicBtn">
+                            <span>Select Microphone</span>
+                        </button>
+                        <button class="btn btn-clear" id="clearMicBtn" style="display: none;">
+                            <span>✕ Clear</span>
+                        </button>
+                    </div>
+                    <div class="device-status" id="micStatus">Not selected</div>
+
+                    <!-- Volume Control -->
+                    <div class="volume-control" id="micVolumeControl" style="display: none;">
+                        <label class="volume-label">
+                            <span>🔊 Volume:</span>
+                            <span class="volume-value" id="micVolumeValue">100%</span>
+                        </label>
+                        <input type="range" class="volume-slider" id="micVolumeSlider" min="0" max="200" value="100"
+                            step="1">
+                        <div class="volume-marks">
+                            <span>0%</span>
+                            <span>100%</span>
+                            <span>200%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recording Controls -->
+            <section class="recording-section" id="recordingSection" style="display: none;">
+                <div class="control-panel">
+                    <button class="btn btn-record" id="recordBtn" disabled>
+                        <span class="record-icon">⬤</span>
+                        <span class="record-text">Start Recording</span>
+                    </button>
+                </div>
+
+                <div class="recording-status" id="recordingStatus" style="display: none;">
+                    <span class="recording-indicator">●</span>
+                    <span class="recording-text">Recording</span>
+                    <span class="recording-time" id="recordingTime">00:00</span>
+                </div>
+            </section>
+
+            <!-- Preview & Download -->
+            <section class="preview-section" id="previewSection" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title" id="previewTitle">Recording Complete</h3>
+                    <p class="section-subtitle" id="previewSubtitle">Preview first 30 seconds</p>
+                </div>
+
+                <div class="audio-player-container">
+                    <audio id="audioPreview" controls class="audio-player"></audio>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn btn-secondary" id="newRecordingBtn">
+                        <span>New Recording</span>
+                    </button>
+                    <button class="btn btn-primary" id="downloadBtn">
+                        <span>💾 Download MP3</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loadingText">Processing audio...</p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/system-recorder.js"></script>
+</body>
+
+</html>

@@ -174,18 +174,6 @@ poetry.toml
 pyrightconfig.json
 
 ### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
-*.xhtml
+# Removed ignore rules for web files because this is a web project
 
 # End of https://www.toptal.com/developers/gitignore/api/python,web

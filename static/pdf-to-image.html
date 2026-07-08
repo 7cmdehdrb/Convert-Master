@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Extract images from PDF files">
+    <title>Multi-Tool Web Converter | PDF to Image</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/pdf-to-image.css">
+    <script src="/static/js/header-loader.js" defer></script>
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="page-header">
+                <h2 class="page-title">PDF to Image Extractor</h2>
+                <p class="page-subtitle">Upload a PDF file and extract all images</p>
+            </section>
+
+            <section class="upload-section">
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-content">
+                        <h3 class="dropzone-title">Drag & Drop PDF Here</h3>
+                        <p class="dropzone-text">or click to browse files</p>
+                        <p class="dropzone-hint">Supports: PDF (Max 50MB)</p>
+                    </div>
+                    <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+                </div>
+            </section>
+
+            <section class="thumbnail-section" id="thumbnailSection" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title"><span id="imageCount">0</span> Images Extracted</h3>
+                    <p class="section-subtitle">Click images to select • Select multiple for batch download</p>
+                </div>
+
+                <div class="selection-controls">
+                    <button class="btn-link" id="selectAllBtn">Select All</button>
+                    <span class="separator">•</span>
+                    <button class="btn-link" id="deselectAllBtn">Deselect All</button>
+                    <span class="separator">•</span>
+                    <span class="selected-count"><span id="selectedCount">0</span> selected</span>
+                </div>
+
+                <div class="thumbnail-grid selectable" id="thumbnailGrid"></div>
+
+                <div class="action-bar">
+                    <div class="format-selector">
+                        <label for="formatSelect">Format:</label>
+                        <select id="formatSelect" class="format-select">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="webp">WEBP</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="downloadBtn" disabled>
+                        <span>Download Selected</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loadingText">Extracting images...</p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/pdf-to-image.js"></script>
+</body>
+
+</html>

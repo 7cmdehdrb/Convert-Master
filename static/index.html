@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Multi-Tool Web Converter - Convert multiple images to PDF with drag-and-drop reordering">
+    <title>Multi-Tool Web Converter | Image to PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/header-loader.js" defer></script>
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="page-header">
+                <h2 class="page-title">Image to PDF Converter</h2>
+                <p class="page-subtitle">Upload multiple images, reorder them, and convert to a single PDF file</p>
+            </section>
+
+            <section class="upload-section">
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-content">
+                        <h3 class="dropzone-title">Drag & Drop Images Here</h3>
+                        <p class="dropzone-text">or click to browse files</p>
+                        <p class="dropzone-hint">Supports: JPG, PNG, WEBP, BMP, TIFF (Max 50MB per file)</p>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" multiple hidden>
+                </div>
+            </section>
+
+            <section class="thumbnail-section" id="thumbnailSection" style="display: none;">
+                <div class="section-header">
+                    <h3 class="section-title"><span id="fileCount">0</span> Images Ready</h3>
+                    <p class="section-subtitle">Drag to reorder • Click × to remove</p>
+                </div>
+                <div class="thumbnail-grid" id="thumbnailGrid"></div>
+                <div class="action-bar">
+                    <button class="btn btn-secondary" id="clearBtn">Clear All</button>
+                    <button class="btn btn-primary" id="convertBtn">Convert to PDF</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text">Converting to PDF...</p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
